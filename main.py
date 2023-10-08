@@ -5,6 +5,7 @@ from fastapi.responses import RedirectResponse
 from config import cfg
 from routes import *
 from shared import *
+from utils import create_password_hash
 
 app = FastAPI()
 
