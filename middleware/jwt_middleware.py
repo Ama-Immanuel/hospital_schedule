@@ -27,3 +27,17 @@ async def get_current_user(token: HTTPAuthorizationCredentials = Depends(oauth2_
     except JWTError:
         raise shared.ExceptionForbidden(code="403002", message="bearer token is invalid")
 
+
+async def get_current_user_refresh(token: HTTPAuthorizationCredentials = Depends(oauth2_scheme)) -> User:
+    try:
+        payload = jwt.decode(token.credentials, cfg.jwt_refresh_token_secret, algorithms=[utils.ALGORITHM])
+        user_id: str = payload.get("email")
+        if user_id is None:
+            raise shared.ExceptionForbidden(code="403001", message="bearer token is invalid")
+        user_query = session.query(UserTable)
+        user = user_query.filter(UserTable.email == user_id).first()
+        if user is None:
+            raise shared.ExceptionForbidden(code="403003", message="bearer token is invalid")
+        return User.from_model_table(user)
+    except JWTError:
+        raise shared.ExceptionForbidden(code="403002", message="bearer token is invalid")

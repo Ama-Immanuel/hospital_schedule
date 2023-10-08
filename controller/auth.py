@@ -34,5 +34,12 @@ def authenticate_user(username: str, password: str) -> User:
     return User.from_model_table(found_user)
 
 
-def refresh_token_process():
-    pass
+def refresh_token_process(current_user: User):
+    time_expired = datetime.utcnow() + timedelta(minutes=cfg.jwt_expired_at)
+    time_expired_refresh = datetime.utcnow() + timedelta(days=1)
+    access_token = create_access_token({"email": current_user.email, "id": current_user.id, "role": current_user.role},
+                                       cfg.jwt_token_secret, time_expired)
+    refresh_token = create_access_token({"email": current_user.email},
+                                        cfg.jwt_refresh_token_secret, time_expired_refresh)
+    return AuthResponse(token=access_token, refresh_token=refresh_token,
+                        expired_at=int(time_expired.timestamp() * 1000))
