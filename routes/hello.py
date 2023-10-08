@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from dto import ResponseHello
-from shared import IResponseBase, success_response
+from shared import *
 
 route_home = APIRouter(
     prefix="/home",
@@ -9,6 +9,9 @@ route_home = APIRouter(
 )
 
 
-@route_home.get("/hello/{name}", response_model=IResponseBase[ResponseHello])
+@route_home.get("/hello/{name}", response_model=IResponseBase[ResponseHello],
+                responses=responses)
 async def say_hello(name: str):
+    if name == "Andree":
+        raise ExceptionBadRequest()
     return success_response(data=ResponseHello(name=name, message=f"Hello {name}"))
