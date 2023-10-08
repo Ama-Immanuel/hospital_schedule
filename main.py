@@ -22,6 +22,3 @@ async def not_found_exception_handler(request: Request, exc: HTTPException):
 
 app.include_router(route_home)
 app.include_router(route_auth)
-
-if __name__ == "__main__":
-    uvicorn.run(app, host=cfg.server_host, port=cfg.server_port)
