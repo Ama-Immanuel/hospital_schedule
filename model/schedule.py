@@ -3,6 +3,9 @@ from sqlalchemy.orm import declarative_base
 
 from utils.db import engine
 
+Base = declarative_base()
+
+
 class Reservation(Base):
     __tablename__ = "schedules"
 
@@ -14,8 +17,8 @@ class Reservation(Base):
 
     time_start = Column(DateTime(timezone=True), nullable=False)
     time_end = Column(DateTime(timezone=True), nullable=False)
-    
+
     doctor_id = Column(String(26), nullable=False)
-   
+
 
 Base.metadata.create_all(engine)

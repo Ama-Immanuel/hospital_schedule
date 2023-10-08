@@ -1,12 +1,33 @@
+import uuid
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
+import model
 from config import cfg
 from routes import *
+from routes.user import route_user
 from shared import *
+from utils.db import session
+from utils import create_password_hash
 
 app = FastAPI()
+
+# Insert admin user if not exist
+query_user = session.query(model.UserTable)
+found_user = query_user.filter(model.UserTable.email == cfg.email_admin).first()
+if found_user is None:
+    print("Insert admin user")
+    new_user = model.UserTable(email=cfg.email_admin,
+                          id=uuid.uuid4(),
+                          name="Admin User",
+                          password=create_password_hash(cfg.password_admin),
+                          phone_number="08121231414",
+                          role=model.ROLE_ADMIN,
+                          )
+    session.add(new_user)
+    session.commit()
 
 app.add_exception_handler(ExceptionNotFound, exception_handler_not_found)
 app.add_exception_handler(ExceptionInternalServerError, exception_handler_internal_server_error)
@@ -23,3 +44,4 @@ async def not_found_exception_handler(request: Request, exc: HTTPException):
 app.include_router(route_home)
 app.include_router(route_auth)
 app.include_router(route_doctor)
+app.include_router(route_user)

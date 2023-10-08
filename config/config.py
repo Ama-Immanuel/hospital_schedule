@@ -18,5 +18,15 @@ class Config:
         self.db_password = os.getenv("DB_PASSWORD")
         self.db_name = os.getenv("DB_NAME")
 
+        # Token
+        self.jwt_token_secret = os.getenv("JWT_TOKEN_SECRET")
+        self.jwt_expired_at = int(os.getenv("JWT_EXPIRED_AT"))
+        self.jwt_refresh_token_secret = os.getenv("JWT_REFRESH_TOKEN_SECRET")
+
+        # Hashed
+        self.hashed_secret = os.getenv("HASHED_SECRET")
+        self.password_admin = os.getenv("PASSWORD_ADMIN")
+        self.email_admin = os.getenv("EMAIL_ADMIN")
+
 
 cfg = Config()

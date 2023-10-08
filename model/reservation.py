@@ -1,7 +1,10 @@
-from sqlalchemy import Column, UUID, String, Text, DateTime
+from sqlalchemy import Column, String, Text, DateTime
 from sqlalchemy.orm import declarative_base
 
 from utils.db import engine
+
+Base = declarative_base()
+
 
 class Reservation(Base):
     __tablename__ = "reservations"
@@ -17,9 +20,10 @@ class Reservation(Base):
 
     status = Column(String(20), nullable=False)
     reason = Column(Text, nullable=False)
-    
+
     schedule_id = Column(String(26), nullable=False)
     patient_id = Column(String(26), nullable=False)
     nurse_id = Column(String(26), nullable=False)
+
 
 Base.metadata.create_all(engine)
