@@ -25,6 +25,8 @@ class Config:
 
         # Hashed
         self.hashed_secret = os.getenv("HASHED_SECRET")
+        self.password_admin = os.getenv("PASSWORD_ADMIN")
+        self.email_admin = os.getenv("EMAIL_ADMIN")
 
 
 cfg = Config()

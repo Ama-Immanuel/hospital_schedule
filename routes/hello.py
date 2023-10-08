@@ -13,5 +13,5 @@ route_home = APIRouter(
                 responses=responses)
 async def say_hello(name: str):
     if name == "Andree":
-        raise ExceptionBadRequest()
+        raise ExceptionBadRequest(code="500020")
     return success_response(data=ResponseHello(name=name, message=f"Hello {name}"))
