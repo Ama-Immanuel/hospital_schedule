@@ -22,3 +22,4 @@ async def not_found_exception_handler(request: Request, exc: HTTPException):
 
 app.include_router(route_home)
 app.include_router(route_auth)
+app.include_router(route_doctor)
