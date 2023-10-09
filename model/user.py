@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 from sqlalchemy import Column, String, Text
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import declarative_base, relationship
 
 from utils.db import engine
 
@@ -24,6 +24,7 @@ class UserTable(Base):
     email = Column(String(255), nullable=False)
     code = Column(String(10), unique=True, nullable=True)
     role = Column(String(10), nullable=False, default=ROLE_PATIENT)
+    # schedules = relationship("ScheduleTable", back_populates="doctors")
 
 
 class User(BaseModel):
@@ -33,6 +34,9 @@ class User(BaseModel):
     email: str
     code: Optional[str]
     role: str
+
+    class Config:
+        orm_mode=True
 
     @staticmethod
     def from_model_table(user_table: UserTable):
