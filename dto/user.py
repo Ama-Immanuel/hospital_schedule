@@ -1,6 +1,14 @@
 from pydantic import BaseModel
 
-class ResponseUser(BaseModel):
+class UserResponse(BaseModel):
+    name:str
+    phone_number:str
+    password:str
+    email:str
+    code:str
+    role:str
+
+class UserRequest(BaseModel):
     name:str
     phone_number:str
     password:str
