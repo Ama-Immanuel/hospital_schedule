@@ -1,7 +1,6 @@
 from sqlalchemy import Column, UUID, String, Text, DateTime
 from sqlalchemy.orm import declarative_base, relationship
 from typing import List
-from model import UserTable, User
 
 from utils.db import engine
 
@@ -38,12 +37,12 @@ class ScheduleTable:
         orm_mode=True
 
     @staticmethod
-    def from_model_table(reservation_table: ReservationTable):
-        return Reservation(id=reservation_table.id,
-                    description=reservation_table.description,
-                    date_request=reservation_table.date_request,
-                    date_end=reservation_table.date_end,
-                    time_start=reservation_table.time_start,
-                    time_end=reservation_table.time_end,
-                    # doctors=reservation_table.doctors
+    def from_model_table(schedulte_table: ScheduleTable):
+        return Reservation(id=schedulte_table.id,
+                    description=schedulte_table.description,
+                    date_request=schedulte_table.date_request,
+                    date_end=schedulte_table.date_end,
+                    time_start=schedulte_table.time_start,
+                    time_end=schedulte_table.time_end,
+                    # doctors=schedulte_table.doctors
                     )

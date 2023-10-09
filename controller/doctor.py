@@ -6,8 +6,8 @@ from utils.db import session
 from model import ROLE_PATIENT,ROLE_NURSE
 
 def fetchNurses() -> List[GetNursesResponses]:
-    nurse_query = session.query(UserTable)
-    nurses: UserTable =  nurse_query.filter(UserTable.role == ROLE_NURSE).all()
+    user_query = session.query(UserTable)
+    nurses: UserTable =  user_query.filter(UserTable.role == ROLE_NURSE).all()
     
     responses:List[GetNursesResponses] = []
 
@@ -19,8 +19,8 @@ def fetchNurses() -> List[GetNursesResponses]:
     return responses
 
 def fetchPatients() -> List[GetNursesResponses]:
-    nurse_query = session.query(UserTable)
-    nurses: UserTable =  nurse_query.filter(UserTable.role == ROLE_PATIENT).all()
+    user_query = session.query(UserTable)
+    nurses: UserTable =  user_query.filter(UserTable.role == ROLE_PATIENT).all()
     
     responses:List[GetNursesResponses] = []
 

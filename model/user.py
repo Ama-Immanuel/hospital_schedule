@@ -35,9 +35,6 @@ class User(BaseModel):
     code: Optional[str]
     role: str
 
-    class Config:
-        orm_mode=True
-
     @staticmethod
     def from_model_table(user_table: UserTable):
         return User(id=user_table.id,

@@ -1,6 +1,5 @@
 from sqlalchemy import Column, String, Text, DateTime
 from sqlalchemy.orm import declarative_base
-from model import UserTable, ScheduleTable
 from utils.db import engine
 
 Base = declarative_base()
@@ -49,5 +48,4 @@ class Reservation:
                     time_end=reservation_table.time_end,
                     status=reservation_table.status,
                     reason=reservation_table.reason,
-
                    )
