@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from dto import GetNursesResponses, GetPatientResponses
+from dto import GetNursesResponses, GetPatientsResponses, GetDoctorsResponses
 from shared import *
 
 import controller
@@ -13,10 +13,14 @@ route_doctor = APIRouter(
     tags=["Doctors"]
 )
 
-@route_doctor.get("/getAllNurses", response_model=IResponseBase[List[GetNursesResponses]], responses=responses)
+@route_doctor.get("/get/nurses", response_model=IResponseBase[List[GetNursesResponses]], responses=responses)
 async def getAllNurses():
     return shared.success_response(data=controller.fetchNurses())
 
-@route_doctor.get("/getAllPatient", response_model=IResponseBase[List[GetPatientResponses]], responses=responses)
-async def getAllPatient():
+@route_doctor.get("/get/patients", response_model=IResponseBase[List[GetPatientsResponses]], responses=responses)
+async def getAllPatients():
     return shared.success_response(data=controller.fetchPatients())
+
+@route_doctor.get("/get/doctors", response_model=IResponseBase[List[GetDoctorsResponses]], responses=responses)
+async def getAllDoctors():
+    return shared.success_response(data=controller.fetchDoctors())

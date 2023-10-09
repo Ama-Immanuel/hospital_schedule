@@ -20,6 +20,6 @@ async def addNurse(request: UserRequest):
     return shared.success_response(data=controller.addNurse(request))
 
 
-@route_admin.post("/add/patient", response_model=IResponseBase[UserResponse], responses=responses)
-async def addPatient(request: UserRequest):
+@route_admin.post("/add/doctor", response_model=IResponseBase[UserResponse], responses=responses)
+async def addDoctor(request: UserRequest):
     return shared.success_response(data=controller.addDoctor(request))

@@ -1,5 +1,5 @@
 from utils.db import session
-from model import ROLE_DOCTOR,ROLE_NURSE
+from model import ROLE_DOCTOR,ROLE_NURSE, ROLE_PATIENT
 from model import *
 from dto import *
 from utils import create_password_hash
@@ -18,7 +18,6 @@ def addNurse(request:UserRequest):
         session.add(new_user)
         session.commit()
         
-        return new_user
     
 
 def addDoctor(request:UserRequest):
@@ -30,9 +29,7 @@ def addDoctor(request:UserRequest):
                           name=request.name,
                           password=create_password_hash(request.password),
                           phone_number=request.phone_number,
+                          code=ROLE_DOCTOR[0:4]+request.name[0:3],
                           role=ROLE_DOCTOR,)
         session.add(new_user)
         session.commit()
-        return new_user
-
-    
