@@ -42,8 +42,9 @@ async def not_found_exception_handler(request: Request, exc: HTTPException):
 
 
 app.include_router(route_home)
-app.include_router(route_auth)
-app.include_router(route_doctor)
 app.include_router(route_user)
+app.include_router(route_auth)
 app.include_router(route_admin)
-app.include_router(route_schedule)
+app.include_router(route_doctor)
+app.include_router(route_nurse)
+app.include_router(route_patient)

@@ -16,10 +16,10 @@ route_admin = APIRouter(
 
 
 @route_admin.post("/add/nurse", response_model=IResponseBase[UserResponse], responses=responses)
-async def addNurse(request: UserRequest):
+async def add_nurse(request: UserRequest):
     return shared.success_response(data=controller.addNurse(request))
 
 
 @route_admin.post("/add/doctor", response_model=IResponseBase[UserResponse], responses=responses)
-async def addDoctor(request: UserRequest):
+async def add_doctor(request: UserRequest):
     return shared.success_response(data=controller.addDoctor(request))

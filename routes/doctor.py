@@ -14,13 +14,13 @@ route_doctor = APIRouter(
 )
 
 @route_doctor.get("/get/nurses", response_model=IResponseBase[List[GetNursesResponses]], responses=responses)
-async def getAllNurses():
+async def get_all_nurses():
     return shared.success_response(data=controller.fetchNurses())
 
 @route_doctor.get("/get/patients", response_model=IResponseBase[List[GetPatientsResponses]], responses=responses)
-async def getAllPatients():
+async def get_all_patients():
     return shared.success_response(data=controller.fetchPatients())
 
-@route_doctor.get("/get/doctors", response_model=IResponseBase[List[GetDoctorsResponses]], responses=responses)
-async def getAllDoctors():
-    return shared.success_response(data=controller.fetchDoctors())
+@route_doctor.patch("/reservation/assignNurse", response_model=IResponseBase, responses=responses)
+async def assign_nurse_to_reservation():
+    return shared.success_response()

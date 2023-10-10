@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends
 import controller
 import middleware
 import shared
-from dto import AuthResponse, LoginRequest
+from dto import AuthResponse, LoginRequest, RegisterRequest
 from model import User
 from shared import IResponseBase, responses
 
@@ -27,6 +27,6 @@ async def refresh(
     return shared.success_response(data=controller.refresh_token_process(current_user))
 
 
-@route_auth.post("/register", response_model=IResponseBase[AuthResponse], responses=responses)
-async def refresh_token():
-    pass
+@route_auth.post("/register", response_model=IResponseBase, responses=responses)
+async def register(request: RegisterRequest):
+    return controller.register_process(request)
