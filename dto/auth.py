@@ -10,3 +10,9 @@ class AuthResponse(BaseModel):
 class LoginRequest(BaseModel):
     email: str
     password: str
+
+class RegisterRequest(BaseModel):
+    name:str
+    phone_number:str
+    email: str
+    password:str

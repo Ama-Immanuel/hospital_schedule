@@ -1,5 +1,6 @@
 from sqlalchemy import URL, create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
 from config import *
 
@@ -12,5 +13,6 @@ url = URL.create(
     port=cfg.db_port
 )
 engine = create_engine(url)
-Session = sessionmaker(engine)
+Session = sessionmaker(bind=engine, autoflush=False)
 session = Session()
+base = declarative_base()
