@@ -5,16 +5,16 @@ from typing import List
 from utils.db import session
 from model import ROLE_PATIENT,ROLE_NURSE
 
-def requestSchedule():
+def requestReservation():
     pass
 
-def confirmSchedule():
+def confirmReservation():
     pass
 
-def rejectSchedule():
+def rejectReservation():
     pass
 
-def cancelSchedule():
+def cancelReservation():
     pass
 
 def getScheduleAtTime():

@@ -24,6 +24,7 @@ class UserTable(Base):
     email = Column(String(255), nullable=False)
     code = Column(String(10), unique=True, nullable=True)
     role = Column(String(10), nullable=False, default=ROLE_PATIENT)
+    # schedules = relationship("ScheduleTable", back_populates="doctors", cascade="all")
     # schedules = relationship("ScheduleTable", back_populates="doctors")
 
 

@@ -21,7 +21,7 @@ async def request_reservation(request):
 
 
 @route_patient.patch("/reservation/cancel", response_model=IResponseBase, responses=responses)
-async def confirm_reservation(request):
+async def cancel_reservation(request):
     pass
 
 @route_patient.get("/schedule/get", response_model=IResponseBase, responses=responses)

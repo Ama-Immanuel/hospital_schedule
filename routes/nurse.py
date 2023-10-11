@@ -5,9 +5,10 @@ from fastapi import APIRouter, Depends
 import controller
 import middleware
 import shared
-from dto import UserResponse, UserRequest
+from dto import UserResponse, UserRequest, GetNursesResponses, GetPatientsResponses, GetDoctorsResponses
 from model import User
 from shared import IResponseBase, responses
+from typing import List
 
 route_nurse = APIRouter(
     prefix="/api/v1/nurse",
@@ -35,3 +36,7 @@ async def cancel_reservation(request):
 @route_nurse.get("/schedule/get", response_model=IResponseBase, responses=responses)
 async def get_doctor_schedule(request):
     return shared.success_response()
+
+@route_nurse.get("/get/patients", response_model=IResponseBase[List[GetPatientsResponses]], responses=responses)
+async def get_all_patients():
+    return shared.success_response(data=controller.fetchPatients())
