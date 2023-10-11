@@ -1,33 +1,34 @@
-from sqlalchemy import Column, String, Text, DateTime
-from sqlalchemy.orm import declarative_base
-from utils.db import engine
+from sqlalchemy import Column, String, Text, ForeignKey, Date, Time
+from sqlalchemy.orm import relationship
+from utils.db import engine, base
+from pydantic import BaseModel
 
-Base = declarative_base()
-
-
-class ReservationTable(Base):
+class ReservationTable(base):
     __tablename__ = "reservations"
 
     id = Column(String(36), primary_key=True)
     queue_number = Column(String(255), nullable=False)
 
-    date_request = Column(DateTime(timezone=True), nullable=False)
-    date_request_at = Column(DateTime(timezone=True), nullable=True)
+    date_request = Column(Date, nullable=False)
+    date_request_at = Column(Date, nullable=True)
 
-    time_start = Column(DateTime(timezone=True), nullable=False)
-    time_end = Column(DateTime(timezone=True), nullable=False)
+    time_start = Column(Time(timezone=True), nullable=False)
+    time_end = Column(Time(timezone=True), nullable=False)
 
     status = Column(String(20), nullable=False)
     reason = Column(Text, nullable=False)
 
-    # schedule_id = Column(String(26), nullable=False)
-    # patient_id = Column(String(26), nullable=False)
-    # nurse_id = Column(String(26), nullable=False)
+    schedule_id = Column(String(36), ForeignKey("schedules.id"))
+    schedule = relationship("ScheduleTable", back_populates="reservations")
 
+    nurse_id = Column(String(36), ForeignKey("users.id"))
+    patient_id = Column(String(36), ForeignKey("users.id"))
+    # nurse = relationship("UserTable", cascade="all, delete-orphan", back_populates="reservations_nurse")
+    # patient_id = Column(String(36), ForeignKey="users.id")
+    
 
-Base.metadata.create_all(engine)
-
-class Reservation:
+    
+class Reservation(BaseModel):
     id: str
     queue_number: str
     date_request: str
@@ -37,7 +38,6 @@ class Reservation:
     status: str
     reason: str
     
-
     @staticmethod
     def from_model_table(reservation_table: ReservationTable):
         return Reservation(id=reservation_table.id,
@@ -49,3 +49,4 @@ class Reservation:
                     status=reservation_table.status,
                     reason=reservation_table.reason,
                    )
+                

@@ -39,7 +39,8 @@ def createSchedule(request, current_user)->Schedule:
         date_start= request.date_start,
         date_end= request.date_end,
         time_start= request.time_start,
-        time_end= request.time_end
+        time_end= request.time_end,
+        doctor_id=current_user.id,
     )
     response = Schedule(
         id=str(uuid.uuid4()) ,
@@ -47,7 +48,9 @@ def createSchedule(request, current_user)->Schedule:
         date_start= str(request.date_start),
         date_end= str(request.date_end),
         time_start= str(request.time_start),
-        time_end= str(request.time_end))
+        time_end= str(request.time_end),
+        doctor_id=str(current_user.id)
+        )
     session.add(new_schedule)
     session.commit()
     return response

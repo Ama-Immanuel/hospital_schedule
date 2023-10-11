@@ -5,7 +5,7 @@ from dto import *
 from utils import create_password_hash
 import uuid
 
-def addNurse(request:UserRequest):
+def addNurse(request:adminRequest, current_user):
     user_query = session.query(UserTable)
     found_user = user_query.filter(UserTable.email == request.email).first()
     if found_user is None:
@@ -20,7 +20,7 @@ def addNurse(request:UserRequest):
         
     
 
-def addDoctor(request:UserRequest):
+def addDoctor(request:adminRequest, current_user):
     user_query = session.query(UserTable)
     found_user = user_query.filter(UserTable.email == request.email).first()
     if found_user is None:

@@ -7,18 +7,18 @@ from fastapi.responses import RedirectResponse
 import model
 from config import cfg
 from routes import *
-from routes.user import route_user
 from shared import *
-from utils.db import session
+from utils.db import session, base, engine
 from utils import create_password_hash
 
 app = FastAPI()
+
+base.metadata.create_all(engine)
 
 # Insert admin user if not exist
 query_user = session.query(model.UserTable)
 found_user = query_user.filter(model.UserTable.email == cfg.email_admin).first()
 if found_user is None:
-    print("Insert admin user")
     new_user = model.UserTable(email=cfg.email_admin,
                           id=uuid.uuid4(),
                           name="Admin User",

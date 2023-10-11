@@ -8,10 +8,8 @@ class UserResponse(BaseModel):
     code:str
     role:str
 
-class UserRequest(BaseModel):
+class adminRequest(BaseModel):
     name:str
     phone_number:str
     password:str
     email:str
-    code:str
-    role:str

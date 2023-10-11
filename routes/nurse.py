@@ -5,8 +5,8 @@ from fastapi import APIRouter, Depends
 import controller
 import middleware
 import shared
-from dto import UserResponse, UserRequest, GetNursesResponses, GetPatientsResponses, GetDoctorsResponses
-from model import User
+from dto import UserResponse,GetNursesResponses, GetPatientsResponses, GetDoctorsResponses, scheduleByPatientRequest, scheduleByPatientResponse
+from model import User, ROLE_NURSE
 from shared import IResponseBase, responses
 from typing import List
 
@@ -33,9 +33,13 @@ async def reject_reservation(request):
 async def cancel_reservation(request):
     return shared.success_response()
 
-@route_nurse.get("/schedule/get", response_model=IResponseBase, responses=responses)
-async def get_doctor_schedule(request):
-    return shared.success_response()
+@route_nurse.post("/schedule/get", response_model=IResponseBase[scheduleByPatientResponse], responses=responses)
+async def get_doctor_schedule(current_user:Annotated[User, Depends(middleware.get_current_user)],request: scheduleByPatientRequest):
+    if(current_user.role == ROLE_NURSE):
+        return shared.success_response(data=controller.fetchDoctorSchedule(request))
+    else:
+        return shared.error_response(message="try login as nurse", code="403001", error='auth error')
+
 
 @route_nurse.get("/get/patients", response_model=IResponseBase[List[GetPatientsResponses]], responses=responses)
 async def get_all_patients():
