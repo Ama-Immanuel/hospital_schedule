@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends
 import controller
 import middleware
 import shared
-from dto import UserResponse,GetNursesResponses, GetPatientsResponses, GetDoctorsResponses, scheduleByPatientRequest, scheduleByPatientResponse
+from dto import UserResponse,GetNursesResponses, GetPatientsResponses, GetDoctorsResponses, scheduleByPatientRequest, scheduleByPatientResponse, reservationByNurseRequest
 from model import User, ROLE_NURSE
 from shared import IResponseBase, responses
 from typing import List
@@ -17,8 +17,11 @@ route_nurse = APIRouter(
 
 
 @route_nurse.post("/reservation/request", response_model=IResponseBase, responses=responses)
-async def request_reservation(request):
-    return shared.success_response()
+async def request_reservation(request:reservationByNurseRequest, current_user:Annotated[User, Depends(middleware.get_current_user)]):
+    if(current_user.role == ROLE_NURSE):
+        return shared.success_response(data=controller.requestReservationByNurse(request, current_user))
+    else:
+        return shared.error_response(message="try login as nurse", code="403001", error="auth error")
 
 
 @route_nurse.patch("/reservation/confirm", response_model=IResponseBase, responses=responses)

@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends
 import controller
 import middleware
 import shared
-from dto import GetDoctorsResponses, scheduleByPatientResponse, scheduleByPatientRequest
+from dto import GetDoctorsResponses, scheduleByPatientResponse, scheduleByPatientRequest, reservationRequest
 from model import User, ROLE_PATIENT
 from shared import IResponseBase, responses
 
@@ -16,12 +16,14 @@ route_patient = APIRouter(
 
 
 @route_patient.post("/reservation/request", response_model=IResponseBase, responses=responses)
-async def request_reservation(request):
-    pass
-
+async def request_reservation(request:reservationRequest, current_user:Annotated[User, Depends(middleware.get_current_user)]):
+    if(current_user.role == ROLE_PATIENT):
+        return shared.success_response(data=controller.requestReservation(request, current_user))
+    else:
+        return shared.error_response(message="try login as patient", code="403001", error="auth error")
 
 @route_patient.patch("/reservation/cancel", response_model=IResponseBase, responses=responses)
-async def cancel_reservation(request):
+async def cancel_reservation(status:str):
     pass
 
 @route_patient.post("/schedule/get", response_model=IResponseBase[scheduleByPatientResponse], responses=responses)
