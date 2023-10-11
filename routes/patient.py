@@ -23,8 +23,11 @@ async def request_reservation(request:reservationRequest, current_user:Annotated
         return shared.error_response(message="try login as patient", code="403001", error="auth error")
 
 @route_patient.patch("/reservation/cancel", response_model=IResponseBase, responses=responses)
-async def cancel_reservation(status:str):
-    pass
+async def cancel_reservation(reservation_id:str, current_user:Annotated[User, Depends(middleware.get_current_user)]):
+    if(current_user.role == ROLE_PATIENT):
+        return shared.success_response(data=controller.rejectReservation(request))
+    else:
+        return shared.error_response(message="try login as patient", code="403001", error="auth error")
 
 @route_patient.post("/schedule/get", response_model=IResponseBase[scheduleByPatientResponse], responses=responses)
 async def get_doctor_schedule(current_user:Annotated[User, Depends(middleware.get_current_user)],request: scheduleByPatientRequest):

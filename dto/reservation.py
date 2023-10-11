@@ -16,3 +16,11 @@ class reservationByNurseRequest(BaseModel):
     reason:str
     schedule_id:str
     patient_id:str
+
+class reservationStatusRequest(BaseModel):
+    status:str
+    reservation_id:str
+
+class reservationAssignNurseRequest(BaseModel):
+    nurse_id:str
+    reservation_id:str

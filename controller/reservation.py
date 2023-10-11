@@ -41,6 +41,7 @@ def requestReservation(request:reservationRequest, current_user):
 
 
 def requestReservationByNurse(request:reservationRequest, current_user):
+
     schedule_query = session.query(ScheduleTable)
     found_schedule = schedule_query.filter(ScheduleTable.id == request.schedule_id).first()
     
@@ -71,3 +72,47 @@ def requestReservationByNurse(request:reservationRequest, current_user):
         return shared.error_response(error="something error")
 
     return "success add reservation"
+
+def confirmReservation(reservation_id:str):
+    reservation_query = session.query(ReservationTable)
+    found_reservation = reservation_query.filter(ReservationTable.id == reservation_id).first()
+    if(found_reservation is not None):
+        found_reservation.status = "confirmed"
+        session.add(found_reservation)
+        session.commit()
+        return "success confirm reservation"
+    else:
+        return shared.error_response(error="reservation not found")
+
+def rejectReservation(reservation_id:str):
+    reservation_query = session.query(ReservationTable)
+    found_reservation = reservation_query.filter(ReservationTable.id == reservation_id).first()
+    if(found_reservation is not None):
+        found_reservation.status = "rejected"
+        session.add(found_reservation)
+        session.commit()
+        return "success reject reservation"
+    else:
+        return shared.error_response(error="reservation not found")
+
+def cancelReservation(reservation_id:str):
+    reservation_query = session.query(ReservationTable)
+    found_reservation = reservation_query.filter(ReservationTable.id == reservation_id).first()
+    if(found_reservation is not None):
+        found_reservation.status = "canceled"
+        session.add(found_reservation)
+        session.commit()
+        return "success confirm reservation"
+    else:
+        return shared.error_response(error="reservation not found")
+
+def assignNurseReservation(request:reservationAssignNurseRequest):
+    reservation_query = session.query(ReservationTable)
+    found_reservation = reservation_query.filter(ReservationTable.id == request.reservation_id).first()
+    if(found_reservation is not None):
+        found_reservation.nurse_id = request.nurse_id
+        session.add(found_reservation)
+        session.commit()
+        return "success assign nurse"
+    else:
+        return shared.error_response(error="reservation not found")
